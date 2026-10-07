@@ -132,14 +132,19 @@
         </div>
 
         <div>
-          <label for="neighborhood">Preferred neighborhood</label>
-          <select id="neighborhood" name="neighborhood" required>
+          <label for="credit-score">My credit-score</label>
+          <select id="credit-score" name="credit-score" required>
             <option value="">Select</option>
-            <option>Williamsburg</option>
-            <option>Park Slope</option>
-            <option>Greenpoint</option>
-            <option>Bed-Stuy</option>
-            <option>DUMBO</option>
+            <option>< 100</option>
+            <option>101 - 200</option>
+            <option>201 - 300</option>
+            <option>301 - 400</option>
+            <option>401 - 500</option>
+            <option>501 - 600</option>
+            <option>601 - 700</option>
+            <option>701 - 800</option>
+            <option>801 - 900</option>
+            <option>901 - 1000</option>
           </select>
         </div>
 
@@ -191,7 +196,7 @@
       const name = document.getElementById("fullName").value;
       const email = document.getElementById("email").value;
       const budget = document.getElementById("budget").value;
-      const neighborhood = document.getElementById("neighborhood").value;
+      const credit = document.getElementById("credit").value;
       const bedrooms = document.getElementById("bedrooms").value;
       const moveIn = document.getElementById("moveIn").value;
       const lifestyle = document.getElementById("lifestyle").value;
