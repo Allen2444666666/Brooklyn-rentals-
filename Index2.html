@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brooklyn's Rentals</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f1ea;
+      margin: 0;
+      color: #1d1d1d;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #efe6d8, #e3f0ed);
+      padding: 50px 0;
+    }
+    h1 {
+      font-size: 42px;
+      margin: 10px 0;
+    }
+    .tag {
+      color: #2d6a4f;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      margin-top: 30px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .full {
+      grid-column: 1 / -1;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #d6cfc4;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .check input {
+      width: auto;
+    }
+    button {
+      background: #2d6a4f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .result {
+      display: none;
+      background: #edf9f0;
+      border: 1px solid #d0e8d6;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 18px;
+    }
+    @media (max-width: 700px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="tag">Find your next Brooklyn home</div>
+      <h1>Brooklyn's Rentals</h1>
+      <p>Tell us what you need and we’ll match you with the right apartment.</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <form id="rentalForm">
+        <div>
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" name="fullName" required />
+        </div>
+
+        <div>
+          <label for="email">Email address</label>
+          <input id="email" type="email" name="email" required />
+        </div>
+
+        <div>
+          <label for="budget">Monthly budget</label>
+          <select id="budget" name="budget" required>
+            <option value="">Select</option>
+            <option>$1,500 - $2,000</option>
+            <option>$2,000 - $2,500</option>
+            <option>$2,500 - $3,500</option>
+            <option>$3,500 - $5,000</option>
+            <option>$5,000+</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="neighborhood">Preferred neighborhood</label>
+          <select id="neighborhood" name="neighborhood" required>
+            <option value="">Select</option>
+            <option>Williamsburg</option>
+            <option>Park Slope</option>
+            <option>Greenpoint</option>
+            <option>Bed-Stuy</option>
+            <option>DUMBO</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="bedrooms">Bedrooms</label>
+          <select id="bedrooms" name="bedrooms" required>
+            <option value="">Select</option>
+            <option>Studio</option>
+            <option>1 bedroom</option>
+            <option>2 bedrooms</option>
+            <option>3+ bedrooms</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="moveIn">Move-in month</label>
+          <input id="moveIn" type="month" name="moveIn" required />
+        </div>
+
+        <div class="full">
+          <label for="lifestyle">Lifestyle priorities</label>
+          <textarea id="lifestyle" name="lifestyle" placeholder="Example: quiet, pet-friendly, gym nearby, walkable neighborhood..."></textarea>
+        </div>
+
+        <div class="full">
+          <label>Must-have amenities</label>
+          <div class="check"><input type="checkbox" name="amenity" value="Laundry" /> Laundry</div>
+          <div class="check"><input type="checkbox" name="amenity" value="Gym" /> Gym</div>
+          <div class="check"><input type="checkbox" name="amenity" value="Doorman" /> Doorman</div>
+          <div class="check"><input type="checkbox" name="amenity" value="Pet friendly" /> Pet friendly</div>
+        </div>
+
+        <div class="full">
+          <button type="submit">Submit survey</button>
+        </div>
+      </form>
+
+      <div id="result" class="result">
+        <strong>Your rental profile:</strong>
+        <p id="profile"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("rentalForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("fullName").value;
+      const email = document.getElementById("email").value;
+      const budget = document.getElementById("budget").value;
+      const neighborhood = document.getElementById("neighborhood").value;
+      const bedrooms = document.getElementById("bedrooms").value;
+      const moveIn = document.getElementById("moveIn").value;
+      const lifestyle = document.getElementById("lifestyle").value;
+      const amenities = [...document.querySelectorAll("input[name='amenity']:checked")].map(item => item.value);
+
+      const resultText =
+        `${name} (${email}) is looking for a ${bedrooms} in ${neighborhood} with a ${budget} budget. They want to move in ${moveIn}. Lifestyle priorities: ${lifestyle || "comfortable and convenient living"}. Amenities: ${amenities.length ? amenities.join(", ") : "No specific amenities selected"}.`;
+
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("budget", budget);
+      formData.append("neighborhood", neighborhood);
+      formData.append("bedrooms", bedrooms);
+      formData.append("moveIn", moveIn);
+      formData.append("lifestyle", lifestyle || "comfortable and convenient living");
+      formData.append("amenities", amenities.length ? amenities.join(", ") : "No specific amenities selected");
+      formData.append("_subject", "New Brooklyn's Rentals Survey");
+      formData.append("_captcha", "false");
+      formData.append("_template", "table");
+
+      try {
+        await fetch("https://formsubmit.co/brooklynhousing64@gmail.com", {
+          method: "POST",
+          body: formData
+        });
+
+        document.getElementById("profile").textContent = resultText;
+        document.getElementById("result").style.display = "block";
+        this.reset();
+
+      } catch (error) {
+        alert("There was a problem sending the survey. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
